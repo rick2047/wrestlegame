@@ -24,4 +24,12 @@ jobs:
         run: uv sync
 
       - name: Run tests
-        run: uv run pytest
+        run: uv run pytest --junitxml=reports/pytest.xml
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: pytest
+          path: reports/pytest.xml
+          reporter: java-junit
