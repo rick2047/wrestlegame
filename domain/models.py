@@ -9,7 +9,10 @@ Alignment = Literal["Face", "Heel"]
 
 
 def clamp_stat(value: int) -> int:
-    """Clamp a stat to the 0-100 range."""
+    """Clamp a stat to the 0-100 range.
+
+    Used for both input normalization and post-match updates.
+    """
     return max(0, min(100, value))
 
 

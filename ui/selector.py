@@ -31,6 +31,7 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         slot_label: str,
         locked_id: Optional[str],
     ) -> None:
+        """Store roster data, slot label, and locked opponent ID."""
         super().__init__()
         self.roster = roster
         self.slot_label = slot_label

@@ -9,7 +9,12 @@ nav:
   - UI Flow: ui-flow.md
   - Simulation: simulation.md
   - Testing: testing.md
-  - API Reference: api.md
+  - API Reference:
+      - Overview: api/index.md
+      - Application: api/app.md
+      - Domain: api/domain.md
+      - Simulation: api/simulation.md
+      - UI: api/ui.md
 theme:
   name: mkdocs
 plugins:
