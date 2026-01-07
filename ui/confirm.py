@@ -46,10 +46,10 @@ class ConfirmScreen(ModalScreen[bool]):
         self.focus_previous()
 
     def on_key(self, event: Key) -> None:
-        if event.key == "left":
+        if event.key in {"left", "left_arrow"}:
             self.focus_previous()
             event.stop()
-        elif event.key == "right":
+        elif event.key in {"right", "right_arrow"}:
             self.focus_next()
             event.stop()
 
