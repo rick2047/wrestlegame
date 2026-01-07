@@ -9,5 +9,13 @@ nav:
   - UI Flow: ui-flow.md
   - Simulation: simulation.md
   - Testing: testing.md
+  - API Reference: api.md
 theme:
   name: mkdocs
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .

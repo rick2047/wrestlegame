@@ -1,3 +1,5 @@
+"""Tests for simulation determinism and validation rules."""
+
 from __future__ import annotations
 
 from domain.booking import is_valid_booking
@@ -8,6 +10,7 @@ from sim.rng import RNG
 
 
 def test_clamp_stat_bounds() -> None:
+    """Clamp should respect lower and upper bounds."""
     assert clamp_stat(-5) == 0
     assert clamp_stat(0) == 0
     assert clamp_stat(100) == 100
@@ -15,12 +18,14 @@ def test_clamp_stat_bounds() -> None:
 
 
 def test_wrestler_clamps_on_init() -> None:
+    """Wrestler should normalize stats on initialization."""
     wrestler = Wrestler("test", "Test", "Face", 120, -10)
     assert wrestler.popularity == 100
     assert wrestler.stamina == 0
 
 
 def test_is_valid_booking() -> None:
+    """Booking requires two distinct, non-empty IDs."""
     assert is_valid_booking(None, None) is False
     assert is_valid_booking("a", None) is False
     assert is_valid_booking(None, "b") is False
@@ -29,6 +34,7 @@ def test_is_valid_booking() -> None:
 
 
 def test_rng_determinism() -> None:
+    """Seeded RNG should produce consistent rolls."""
     rng_a = RNG(42)
     rng_b = RNG(42)
     rolls_a = [rng_a.randint(1, 10) for _ in range(5)]
@@ -37,6 +43,7 @@ def test_rng_determinism() -> None:
 
 
 def test_simulate_match_deterministic() -> None:
+    """Simulated results should be identical for the same seed."""
     roster = seed_roster()
     match = Match("asha", "rohan")
     result_a = simulate_match(match, roster, seed=10)
@@ -45,6 +52,7 @@ def test_simulate_match_deterministic() -> None:
 
 
 def test_simulate_match_has_both_deltas() -> None:
+    """Match results should include deltas for both wrestlers."""
     roster = seed_roster()
     match = Match("asha", "rohan")
     result = simulate_match(match, roster, seed=3)
@@ -52,6 +60,7 @@ def test_simulate_match_has_both_deltas() -> None:
 
 
 def test_rating_is_within_bounds() -> None:
+    """Ratings should always be clamped to 0-100."""
     roster = seed_roster()
     match = Match("asha", "rohan")
     result = simulate_match(match, roster, seed=7)
@@ -59,6 +68,7 @@ def test_rating_is_within_bounds() -> None:
 
 
 def test_apply_result_clamps_stats() -> None:
+    """Applying results should clamp stats to valid bounds."""
     roster = {
         "a": Wrestler("a", "A", "Face", 100, 2),
         "b": Wrestler("b", "B", "Heel", 0, 1),
@@ -80,5 +90,6 @@ def test_apply_result_clamps_stats() -> None:
 
 
 def test_seed_roster_unique_ids() -> None:
+    """Roster IDs should be unique."""
     roster = seed_roster()
     assert len(roster.keys()) == len(set(roster.keys()))

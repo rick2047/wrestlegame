@@ -1,3 +1,5 @@
+"""Booking confirmation modal screen."""
+
 from __future__ import annotations
 
 from textual import on
@@ -11,6 +13,7 @@ from domain.models import Wrestler
 
 
 class ConfirmScreen(ModalScreen[bool]):
+    """Modal for confirming a booked match."""
     BINDINGS = [
         ("escape", "cancel", "Back"),
         ("left", "focus_previous", "Left"),
@@ -18,11 +21,13 @@ class ConfirmScreen(ModalScreen[bool]):
     ]
 
     def __init__(self, wrestler_a: Wrestler, wrestler_b: Wrestler) -> None:
+        """Create the modal with selected wrestlers."""
         super().__init__()
         self.wrestler_a = wrestler_a
         self.wrestler_b = wrestler_b
 
     def compose(self) -> ComposeResult:
+        """Compose the confirmation layout."""
         with Container(id="confirm"):
             yield Label("Confirm Booking", id="confirm-title")
             yield Static(
@@ -37,15 +42,19 @@ class ConfirmScreen(ModalScreen[bool]):
                 yield Button("Back", id="confirm-no")
 
     def on_mount(self) -> None:
+        """Focus the confirm button by default."""
         self.set_focus(self.query_one("#confirm-yes", Button))
 
     def action_focus_next(self) -> None:
+        """Move focus to the next widget."""
         self.focus_next()
 
     def action_focus_previous(self) -> None:
+        """Move focus to the previous widget."""
         self.focus_previous()
 
     def on_key(self, event: Key) -> None:
+        """Handle left/right fallback navigation keys."""
         if event.key in {"left", "left_arrow", "h", "a"}:
             self.focus_previous()
             event.stop()
@@ -55,11 +64,14 @@ class ConfirmScreen(ModalScreen[bool]):
 
     @on(Button.Pressed, "#confirm-yes")
     def _on_confirm(self) -> None:
+        """Dismiss with a True result."""
         self.dismiss(True)
 
     @on(Button.Pressed, "#confirm-no")
     def _on_back(self) -> None:
+        """Dismiss with a False result."""
         self.dismiss(False)
 
     def action_cancel(self) -> None:
+        """Treat cancel as a back action."""
         self.dismiss(False)

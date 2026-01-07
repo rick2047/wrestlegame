@@ -1,3 +1,5 @@
+"""Seed roster data for the vertical slice."""
+
 from __future__ import annotations
 
 from typing import Dict
@@ -6,6 +8,7 @@ from domain.models import Wrestler
 
 
 def seed_roster() -> Dict[str, Wrestler]:
+    """Return a small, hard-coded roster with mixed alignments."""
     wrestlers = [
         Wrestler("asha", "Asha Blaze", "Face", 48, 90),
         Wrestler("rohan", "Rohan Steel", "Heel", 52, 85),

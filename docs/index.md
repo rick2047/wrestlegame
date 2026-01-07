@@ -24,6 +24,7 @@ uv run python app.py
 - `sim/`: deterministic RNG and match simulation logic.
 - `ui/`: Textual screens and styles.
 - `tests/`: simulation and validation tests.
+- `docs/api.md`: API reference generated from docstrings.
 
 ## Key Design Principles
 - Pure simulation logic: no UI state or side effects in the simulation layer.

@@ -1,1 +1,1 @@
-"""Simulation engine and RNG utilities."""
+"""Simulation engine and deterministic RNG utilities."""

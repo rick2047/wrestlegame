@@ -1,1 +1,1 @@
-"""Textual UI screens and widgets."""
+"""Textual UI screens, state, and styles."""

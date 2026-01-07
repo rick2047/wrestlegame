@@ -1,3 +1,5 @@
+"""Match simulation engine and stat application."""
+
 from __future__ import annotations
 
 from typing import Dict
@@ -7,6 +9,7 @@ from sim.rng import RNG
 
 
 def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> MatchResult:
+    """Simulate a match and return a deterministic MatchResult."""
     rng = RNG(seed)
     wrestler_a = roster[match.wrestler_a_id]
     wrestler_b = roster[match.wrestler_b_id]
@@ -46,6 +49,7 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
 
 
 def apply_result(roster: Dict[str, Wrestler], result: MatchResult) -> None:
+    """Apply stat deltas to the roster while clamping results."""
     for wrestler_id, delta in result.deltas.items():
         wrestler = roster[wrestler_id]
         wrestler.popularity = clamp_stat(wrestler.popularity + delta.popularity)

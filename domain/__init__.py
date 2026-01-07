@@ -1,1 +1,1 @@
-"""Domain models and roster data."""
+"""Domain models, roster data, and booking validation."""

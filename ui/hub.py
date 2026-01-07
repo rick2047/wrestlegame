@@ -1,3 +1,5 @@
+"""Match card hub screen."""
+
 from __future__ import annotations
 
 from typing import Dict, Optional
@@ -14,12 +16,14 @@ from domain.models import Wrestler
 
 
 class HubScreen(Screen):
+    """Landing screen for slot selection and match booking."""
     BINDINGS = [
         ("up", "focus_previous", "Up"),
         ("down", "focus_next", "Down"),
     ]
 
     def compose(self) -> ComposeResult:
+        """Compose the hub layout."""
         yield Header(show_clock=False)
         with Container(id="hub"):
             with Vertical(id="slots"):
@@ -30,11 +34,13 @@ class HubScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
+        """Set initial focus to the first slot."""
         self.set_focus(self.query_one("#slot-a", Button))
 
     def update_view(
         self, roster: Dict[str, Wrestler], selected_a_id: Optional[str], selected_b_id: Optional[str]
     ) -> None:
+        """Update slot labels, notes, and booking button state."""
         slot_a = roster[selected_a_id].name if selected_a_id else "Empty"
         slot_b = roster[selected_b_id].name if selected_b_id else "Empty"
         self.query_one("#slot-a", Button).label = f"Slot A: {slot_a}"
@@ -55,17 +61,21 @@ class HubScreen(Screen):
 
     @on(Button.Pressed, "#slot-a")
     def _select_a(self) -> None:
+        """Open selector for Slot A."""
         self.app.open_selector("A")
 
     @on(Button.Pressed, "#slot-b")
     def _select_b(self) -> None:
+        """Open selector for Slot B."""
         self.app.open_selector("B")
 
     @on(Button.Pressed, "#book")
     def _book(self) -> None:
+        """Open confirmation modal."""
         self.app.open_confirm()
 
     def on_key(self, event: Key) -> None:
+        """Handle fallback focus navigation keys."""
         if event.key in {"k", "w"}:
             self.focus_previous()
             event.stop()

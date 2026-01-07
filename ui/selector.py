@@ -1,3 +1,5 @@
+"""Wrestler selection modal screen."""
+
 from __future__ import annotations
 
 from typing import Dict, List, Optional
@@ -13,6 +15,7 @@ from domain.models import Wrestler
 
 
 class SelectorScreen(ModalScreen[Optional[str]]):
+    """Modal for selecting a wrestler from the roster."""
     BINDINGS = [
         ("escape", "cancel", "Cancel"),
         ("enter", "select", "Select"),
@@ -31,6 +34,7 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         self._order: List[str] = []
 
     def compose(self) -> ComposeResult:
+        """Compose the selector layout."""
         with Container(id="selector"):
             yield Label(f"Select Wrestler ({self.slot_label})", id="selector-title")
             yield ListView(id="roster-list")
@@ -40,6 +44,7 @@ class SelectorScreen(ModalScreen[Optional[str]]):
                 yield Static("Esc: Cancel")
 
     def on_mount(self) -> None:
+        """Populate roster list and set initial focus."""
         roster_list = self.query_one("#roster-list", ListView)
         for wrestler in self.roster.values():
             locked = " (locked)" if wrestler.id == self.locked_id else ""
@@ -51,10 +56,12 @@ class SelectorScreen(ModalScreen[Optional[str]]):
 
     @on(ListView.Highlighted)
     def _on_highlighted(self, _: ListView.Highlighted) -> None:
+        """Update detail panel when list selection changes."""
         self._update_detail()
 
     @on(ListView.Selected)
     def _on_selected(self, event: ListView.Selected) -> None:
+        """Handle Enter selection from the list view."""
         wrestler_id = self._order[event.index]
         if wrestler_id == self.locked_id:
             self.notify("That wrestler is locked.", severity="warning")
@@ -62,6 +69,7 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         self.dismiss(wrestler_id)
 
     def _update_detail(self) -> None:
+        """Render stats for the currently highlighted wrestler."""
         roster_list = self.query_one("#roster-list", ListView)
         if roster_list.index is None:
             return
@@ -75,6 +83,7 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         self.query_one("#detail", Static).update(detail)
 
     def action_select(self) -> None:
+        """Select the highlighted wrestler."""
         roster_list = self.query_one("#roster-list", ListView)
         if roster_list.index is None:
             return
@@ -85,9 +94,11 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         self.dismiss(wrestler_id)
 
     def action_cancel(self) -> None:
+        """Dismiss the modal without selection."""
         self.dismiss(None)
 
     def on_key(self, event: Key) -> None:
+        """Handle fallback list navigation keys."""
         if event.key in {"k", "w"}:
             self.action_cursor_up()
             event.stop()
