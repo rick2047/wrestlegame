@@ -26,7 +26,7 @@ class WrestleGMApp(App):
 
     def on_mount(self) -> None:
         self.push_screen(HubScreen())
-        self.refresh_hub()
+        self.call_after_refresh(self.refresh_hub)
 
     def refresh_hub(self) -> None:
         hub = self.screen
