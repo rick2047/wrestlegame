@@ -69,3 +69,15 @@ Screen {
     margin-top: 1;
     align: center middle;
 }
+
+#sim {
+    width: 60;
+    height: auto;
+    padding: 2 2;
+    border: round $surface;
+}
+
+#sim-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
