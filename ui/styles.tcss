@@ -81,3 +81,25 @@ Screen {
     text-style: bold;
     margin-bottom: 1;
 }
+
+#results {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: round $surface;
+}
+
+#results-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#results-stats {
+    margin-top: 1;
+    border: round $surface;
+    padding: 1;
+}
+
+#results-actions {
+    margin-top: 1;
+}
