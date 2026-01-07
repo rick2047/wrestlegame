@@ -1,0 +1,23 @@
+Screen {
+    align: center middle;
+}
+
+#hub {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: round $surface;
+}
+
+#slots {
+    margin-bottom: 1;
+}
+
+#notes {
+    color: $text-muted;
+    margin-top: 1;
+}
+
+#book {
+    width: 100%;
+}
