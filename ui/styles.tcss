@@ -51,3 +51,21 @@ Screen {
 #selector-actions {
     color: $text-muted;
 }
+
+#confirm {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: round $surface;
+    background: $panel;
+}
+
+#confirm-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#confirm-actions {
+    margin-top: 1;
+    align: center middle;
+}
