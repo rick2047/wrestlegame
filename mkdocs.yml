@@ -1,0 +1,13 @@
+site_name: WrestleGM Design Docs
+site_description: Design and implementation guide for the WrestleGM vertical slice.
+site_author: WrestleGM Contributors
+repo_name: wrestledream
+docs_dir: docs
+nav:
+  - Overview: index.md
+  - Architecture: architecture.md
+  - UI Flow: ui-flow.md
+  - Simulation: simulation.md
+  - Testing: testing.md
+theme:
+  name: mkdocs
