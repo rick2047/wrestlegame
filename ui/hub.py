@@ -5,6 +5,7 @@ from typing import Dict, Optional
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
+from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Button, Footer, Header, Static
 
@@ -63,3 +64,11 @@ class HubScreen(Screen):
     @on(Button.Pressed, "#book")
     def _book(self) -> None:
         self.app.open_confirm()
+
+    def on_key(self, event: Key) -> None:
+        if event.key in {"k", "w"}:
+            self.focus_previous()
+            event.stop()
+        elif event.key in {"j", "s"}:
+            self.focus_next()
+            event.stop()

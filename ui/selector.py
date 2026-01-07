@@ -5,6 +5,7 @@ from typing import Dict, List, Optional
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
+from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Label, ListItem, ListView, Static
 
@@ -85,3 +86,11 @@ class SelectorScreen(ModalScreen[Optional[str]]):
 
     def action_cancel(self) -> None:
         self.dismiss(None)
+
+    def on_key(self, event: Key) -> None:
+        if event.key in {"k", "w"}:
+            self.action_cursor_up()
+            event.stop()
+        elif event.key in {"j", "s"}:
+            self.action_cursor_down()
+            event.stop()

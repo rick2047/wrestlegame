@@ -5,6 +5,7 @@ from typing import Dict, List
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
+from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Button, Label, Static
 
@@ -61,6 +62,14 @@ class ResultsScreen(Screen):
     def action_back(self) -> None:
         self.app.pop_screen()
         self.app.refresh_hub()
+
+    def on_key(self, event: Key) -> None:
+        if event.key in {"k", "w"}:
+            self.focus_previous()
+            event.stop()
+        elif event.key in {"j", "s"}:
+            self.focus_next()
+            event.stop()
 
 
 def _format_stats(wrestler_a: Wrestler, wrestler_b: Wrestler, result: MatchResult) -> str:
