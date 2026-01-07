@@ -21,3 +21,33 @@ Screen {
 #book {
     width: 100%;
 }
+
+#selector {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: round $surface;
+    background: $panel;
+}
+
+#selector-title {
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#roster-list {
+    height: 10;
+    border: round $surface;
+    margin-bottom: 1;
+}
+
+#detail {
+    height: 4;
+    border: round $surface;
+    padding: 0 1;
+    margin-bottom: 1;
+}
+
+#selector-actions {
+    color: $text-muted;
+}
