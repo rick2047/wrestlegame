@@ -35,6 +35,9 @@ class ConfirmScreen(ModalScreen[bool]):
                 yield Button("Confirm", id="confirm-yes")
                 yield Button("Back", id="confirm-no")
 
+    def on_mount(self) -> None:
+        self.set_focus(self.query_one("#confirm-yes", Button))
+
     @on(Button.Pressed, "#confirm-yes")
     def _on_confirm(self) -> None:
         self.dismiss(True)
