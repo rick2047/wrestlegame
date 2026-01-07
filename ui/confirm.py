@@ -3,6 +3,7 @@ from __future__ import annotations
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
+from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Static
 
@@ -55,6 +56,14 @@ class ConfirmScreen(ModalScreen[bool]):
         else:
             index = 0
         buttons[(index + direction) % len(buttons)].focus()
+
+    def on_key(self, event: Key) -> None:
+        if event.key == "left":
+            self._cycle_focus(-1)
+            event.stop()
+        elif event.key == "right":
+            self._cycle_focus(1)
+            event.stop()
 
     @on(Button.Pressed, "#confirm-yes")
     def _on_confirm(self) -> None:
