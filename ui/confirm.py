@@ -13,7 +13,10 @@ from domain.models import Wrestler
 
 
 class ConfirmScreen(ModalScreen[bool]):
-    """Modal for confirming a booked match."""
+    """Modal for confirming a booked match.
+
+    Shows both wrestlers with key stats and returns True on confirm, False on back.
+    """
     BINDINGS = [
         ("escape", "cancel", "Back"),
         ("left", "focus_previous", "Left"),

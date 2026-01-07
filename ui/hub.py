@@ -16,7 +16,10 @@ from domain.models import Wrestler
 
 
 class HubScreen(Screen):
-    """Landing screen for slot selection and match booking."""
+    """Landing screen for slot selection and match booking.
+
+    Provides two slots, a notes line for matchup context, and a booking action.
+    """
     BINDINGS = [
         ("up", "focus_previous", "Up"),
         ("down", "focus_next", "Down"),

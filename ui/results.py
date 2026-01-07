@@ -15,7 +15,10 @@ from domain.models import Match, MatchResult, Wrestler
 
 
 class ResultsScreen(Screen):
-    """Screen for displaying winner, rating, and stat changes."""
+    """Screen for displaying winner, rating, and stat changes.
+
+    Provides actions for booking another match, rematching, or quitting.
+    """
     BINDINGS = [
         ("up", "focus_previous", "Up"),
         ("down", "focus_next", "Down"),

@@ -10,7 +10,11 @@ from domain.models import Match, MatchResult
 
 @dataclass
 class AppState:
-    """Holds selection and simulation state across screens."""
+    """Holds selection and simulation state across screens.
+
+    Tracks selected wrestler IDs, the last simulated match/result, and RNG seed
+    used by the simulation engine.
+    """
     selected_a_id: Optional[str] = None
     selected_b_id: Optional[str] = None
     last_match: Optional[Match] = None

@@ -18,7 +18,13 @@ from ui.state import AppState
 
 
 class WrestleGMApp(App):
-    """Main Textual app managing screens, state, and simulation."""
+    """Main Textual app that owns state and coordinates screen flow.
+
+    Responsibilities:
+    - Hold the live roster and the global AppState.
+    - Route navigation between Hub, Selector, Confirm, Simulating, and Results screens.
+    - Trigger simulations and apply stat deltas to the roster.
+    """
     CSS_PATH = "ui/styles.tcss"
     BINDINGS = [("q", "quit", "Quit")]
 

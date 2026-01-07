@@ -12,7 +12,10 @@ from ui.results import ResultsScreen
 
 
 class SimulatingScreen(Screen):
-    """Short-lived screen that auto-advances to results."""
+    """Short-lived screen that auto-advances to results.
+
+    Used as a pacing step between confirmation and results display.
+    """
     def __init__(self, match: Match, result: MatchResult) -> None:
         """Create the simulating screen with the pending result."""
         super().__init__()

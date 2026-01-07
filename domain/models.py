@@ -15,7 +15,11 @@ def clamp_stat(value: int) -> int:
 
 @dataclass
 class Wrestler:
-    """Represents a wrestler with alignment and core stats."""
+    """Represents a wrestler used by booking and simulation.
+
+    Stores alignment plus core stats that influence match outcomes.
+    Popularity and stamina are clamped to 0-100 on creation.
+    """
     id: str
     name: str
     alignment: Alignment
@@ -30,21 +34,30 @@ class Wrestler:
 
 @dataclass(frozen=True)
 class Match:
-    """Represents a booked match between two wrestlers."""
+    """Represents a booked match by wrestler IDs.
+
+    The model is immutable to keep simulation inputs stable.
+    """
     wrestler_a_id: str
     wrestler_b_id: str
 
 
 @dataclass(frozen=True)
 class StatDelta:
-    """Represents stat changes for a wrestler after a match."""
+    """Represents popularity and stamina changes after a match.
+
+    Deltas are applied to the roster to update long-term state.
+    """
     popularity: int
     stamina: int
 
 
 @dataclass(frozen=True)
 class MatchResult:
-    """Represents the outcome of a simulated match."""
+    """Represents a simulated outcome with explicit deltas.
+
+    The result includes the winner/loser IDs, a rating, and per-wrestler deltas.
+    """
     winner_id: str
     loser_id: str
     rating: int

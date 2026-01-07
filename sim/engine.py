@@ -9,7 +9,13 @@ from sim.rng import RNG
 
 
 def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> MatchResult:
-    """Simulate a match and return a deterministic MatchResult."""
+    """Simulate a match and return a deterministic MatchResult.
+
+    Inputs:
+    - match: the booked pairing by wrestler IDs.
+    - roster: lookup table for stats used in weighting and rating.
+    - seed: RNG seed to make outcomes reproducible.
+    """
     rng = RNG(seed)
     wrestler_a = roster[match.wrestler_a_id]
     wrestler_b = roster[match.wrestler_b_id]
@@ -49,7 +55,10 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
 
 
 def apply_result(roster: Dict[str, Wrestler], result: MatchResult) -> None:
-    """Apply stat deltas to the roster while clamping results."""
+    """Apply stat deltas to the roster while clamping results.
+
+    This mutates the roster in-place to reflect post-match stat changes.
+    """
     for wrestler_id, delta in result.deltas.items():
         wrestler = roster[wrestler_id]
         wrestler.popularity = clamp_stat(wrestler.popularity + delta.popularity)

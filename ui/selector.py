@@ -15,7 +15,11 @@ from domain.models import Wrestler
 
 
 class SelectorScreen(ModalScreen[Optional[str]]):
-    """Modal for selecting a wrestler from the roster."""
+    """Modal for selecting a wrestler from the roster.
+
+    Displays a list of wrestlers and a detail panel for the highlighted entry.
+    Blocks selection of the opponent already chosen in the other slot.
+    """
     BINDINGS = [
         ("escape", "cancel", "Cancel"),
         ("enter", "select", "Select"),

@@ -6,7 +6,11 @@ import random
 
 
 class RNG:
-    """Seeded RNG helper with weighted selection support."""
+    """Seeded RNG helper used by the simulation engine.
+
+    Provides predictable randomness for tests and repeatable match results.
+    Includes a weighted_choice helper so win odds can be based on stats.
+    """
     def __init__(self, seed: int) -> None:
         """Create a new RNG with a fixed seed."""
         self._rng = random.Random(seed)
