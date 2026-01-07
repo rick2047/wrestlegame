@@ -14,8 +14,8 @@ This repo is a Python/Textual prototype for the WrestleGM vertical slice.
 Keep new modules small and focused; group UI by screen and keep sim logic pure.
 
 ## Build, Test, and Development Commands
-- `python app.py`: run the Textual TUI prototype.
-- `python -m pytest`: run the test suite.
+- `uv run python app.py`: run the Textual TUI prototype in the uv venv.
+- `uv run pytest`: run the test suite in the uv venv.
 
 No build step is required for the current prototype.
 
@@ -34,4 +34,5 @@ No build step is required for the current prototype.
 - PRs should include: a concise summary, testing notes (commands run), and any UX notes or screenshots if UI changes are made.
 
 ## Configuration & Data Notes
+- Use `uv sync` after dependency changes to refresh `.venv` and `uv.lock`.
 - The RNG seed is entered at startup; use a fixed seed for deterministic behavior during testing.
