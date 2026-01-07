@@ -38,6 +38,24 @@ class ConfirmScreen(ModalScreen[bool]):
     def on_mount(self) -> None:
         self.set_focus(self.query_one("#confirm-yes", Button))
 
+    def action_focus_next(self) -> None:
+        self._cycle_focus(1)
+
+    def action_focus_previous(self) -> None:
+        self._cycle_focus(-1)
+
+    def _cycle_focus(self, direction: int) -> None:
+        buttons = [
+            self.query_one("#confirm-yes", Button),
+            self.query_one("#confirm-no", Button),
+        ]
+        current = self.focused
+        if current in buttons:
+            index = buttons.index(current)
+        else:
+            index = 0
+        buttons[(index + direction) % len(buttons)].focus()
+
     @on(Button.Pressed, "#confirm-yes")
     def _on_confirm(self) -> None:
         self.dismiss(True)
