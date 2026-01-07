@@ -45,11 +45,20 @@ class SelectorScreen(ModalScreen[Optional[str]]):
             label = f"{wrestler.name} ({wrestler.alignment}){locked}"
             roster_list.append(ListItem(Label(label), id=wrestler.id))
             self._order.append(wrestler.id)
+        self.set_focus(roster_list)
         self._update_detail()
 
     @on(ListView.Highlighted)
     def _on_highlighted(self, _: ListView.Highlighted) -> None:
         self._update_detail()
+
+    @on(ListView.Selected)
+    def _on_selected(self, event: ListView.Selected) -> None:
+        wrestler_id = self._order[event.index]
+        if wrestler_id == self.locked_id:
+            self.notify("That wrestler is locked.", severity="warning")
+            return
+        self.dismiss(wrestler_id)
 
     def _update_detail(self) -> None:
         roster_list = self.query_one("#roster-list", ListView)
