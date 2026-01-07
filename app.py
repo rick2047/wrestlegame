@@ -82,6 +82,7 @@ class WrestleGMApp(App):
         if not is_valid_booking(self.state.selected_a_id, self.state.selected_b_id):
             return
         match = Match(self.state.selected_a_id, self.state.selected_b_id)
+        # Simulation is pure; roster is mutated only by apply_result.
         result = simulate_match(match, self.roster, self.state.seed)
         apply_result(self.roster, result)
         self.state.last_match = match
