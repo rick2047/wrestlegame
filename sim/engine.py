@@ -20,6 +20,7 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
     wrestler_a = roster[match.wrestler_a_id]
     wrestler_b = roster[match.wrestler_b_id]
 
+    # Weight outcome by core stats with a small randomness band.
     a_weight = wrestler_a.popularity + wrestler_a.stamina + rng.randint(-5, 5)
     b_weight = wrestler_b.popularity + wrestler_b.stamina + rng.randint(-5, 5)
     winner_id = rng.weighted_choice(
@@ -27,6 +28,7 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
     )
     loser_id = wrestler_b.id if winner_id == wrestler_a.id else wrestler_a.id
 
+    # Rating blends popularity with alignment bonus and stamina penalties.
     base = (wrestler_a.popularity + wrestler_b.popularity) / 2
     bonus = 5 if wrestler_a.alignment != wrestler_b.alignment else 0
     penalty = 0
@@ -37,6 +39,7 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
     variance = rng.randint(-5, 5)
     rating = clamp_stat(int(base + bonus + penalty + variance))
 
+    # Apply small, bounded deltas so results feel meaningful but stable.
     winner_popularity = 3
     loser_popularity = -1
     stamina_loss = 8 + rng.randint(0, 4)

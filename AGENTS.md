@@ -28,6 +28,7 @@ No build step is required for the current prototype.
 - Framework: pytest.
 - Location: `tests/` directory, with files named `test_*.py`.
 - Focus: determinism (seeded RNG), bounds checking (0–100), and validation of booking rules.
+- Default expectation: run `uv run pytest` before reporting changes.
 
 ## Commit & Pull Request Guidelines
 - Existing commit messages are short and lowercase (e.g., “added plan.md”). Follow this style unless a different convention is agreed.
