@@ -31,7 +31,7 @@ No build step is required for the current prototype.
 - Default expectation: run `uv run pytest` before reporting changes.
 
 ## Commit & Pull Request Guidelines
-- Existing commit messages are short and lowercase (e.g., “added plan.md”). Follow this style unless a different convention is agreed.
+- Commit messages must include a concise header and a detailed explanation body.
 - PRs should include: a concise summary, testing notes (commands run), and any UX notes or screenshots if UI changes are made.
 
 ## Configuration & Data Notes
