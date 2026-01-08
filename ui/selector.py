@@ -11,6 +11,7 @@ from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Label, ListItem, ListView, Static
 
+from domain.match_types import MATCH_TYPE_LOOKUP, MatchType
 from domain.models import Wrestler
 
 
@@ -30,12 +31,14 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         roster: Dict[str, Wrestler],
         slot_label: str,
         locked_id: Optional[str],
+        match_type: Optional[MatchType],
     ) -> None:
         """Store roster data, slot label, and locked opponent ID."""
         super().__init__()
         self.roster = roster
         self.slot_label = slot_label
         self.locked_id = locked_id
+        self.match_type = match_type
         self._order: List[str] = []
 
     def compose(self) -> ComposeResult:
@@ -80,10 +83,16 @@ class SelectorScreen(ModalScreen[Optional[str]]):
             return
         wrestler_id = self._order[roster_list.index]
         wrestler = self.roster[wrestler_id]
+        proficiency = "Select match type"
+        if self.match_type:
+            label = MATCH_TYPE_LOOKUP[self.match_type].label
+            proficiency = "Yes" if wrestler.is_proficient(self.match_type) else "No"
+            proficiency = f"{label}: {proficiency}"
         detail = (
             f"Alignment: {wrestler.alignment}\n"
             f"Popularity: {wrestler.popularity}\n"
-            f"Stamina: {wrestler.stamina}"
+            f"Stamina: {wrestler.stamina}\n"
+            f"Proficiency: {proficiency}"
         )
         self.query_one("#detail", Static).update(detail)
 

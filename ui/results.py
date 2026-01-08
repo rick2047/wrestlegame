@@ -11,6 +11,7 @@ from textual.events import Key
 from textual.screen import Screen
 from textual.widgets import Button, Label, Static
 
+from domain.match_types import MATCH_TYPE_LOOKUP
 from domain.models import Match, MatchResult, Wrestler
 
 
@@ -48,7 +49,12 @@ class ResultsScreen(Screen):
         wrestler_a = roster[self.match.wrestler_a_id]
         wrestler_b = roster[self.match.wrestler_b_id]
         winner = wrestler_a if self.result.winner_id == wrestler_a.id else wrestler_b
-        summary = f"Winner: {winner.name} ({winner.alignment})\nRating: {self.result.rating}/100"
+        match_label = MATCH_TYPE_LOOKUP[self.match.match_type].label
+        summary = (
+            f"Winner: {winner.name} ({winner.alignment})\n"
+            f"Match Type: {match_label}\n"
+            f"Rating: {self.result.rating}/100"
+        )
         self.query_one("#results-summary", Static).update(summary)
         self.query_one("#results-stats", Static).update(
             _format_stats(wrestler_a, wrestler_b, self.result)
