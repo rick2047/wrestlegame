@@ -8,7 +8,7 @@ This repo is a Python/Textual prototype for the WrestleGM vertical slice.
 - `sim/`: deterministic simulation engine and RNG wrapper.
 - `ui/`: Textual screens, styles, and shared UI state.
 - `plan.md`: implementation plan for the vertical slice.
-- `prd.md`: product requirements guide.
+- `prd/main.md`: product requirements guide.
 - `tests/`: pytest suite for simulation and validation.
 
 Keep new modules small and focused; group UI by screen and keep sim logic pure.

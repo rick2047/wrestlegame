@@ -40,10 +40,11 @@ vertical slices expand or revise the interface.
 1. **Launch app** -> Match Card Hub
 2. Select **Slot A** -> open wrestler selector modal -> confirm selection
 3. Select **Slot B** -> open wrestler selector modal -> confirm selection
-4. Press **Book Match** -> open **Confirm Booking** modal
-5. Confirm -> Simulating screen
-6. Auto-advance -> Results screen
-7. Choose:
+4. Select **Match Type** -> open match type modal -> confirm selection
+5. Press **Book Match** -> open **Confirm Booking** modal
+6. Confirm -> Simulating screen
+7. Auto-advance -> Results screen
+8. Choose:
    - **Book Another Match** -> back to Match Card Hub (slots cleared)
    - **Re-match** -> Simulating -> Results (same A/B)
 
@@ -51,11 +52,13 @@ vertical slices expand or revise the interface.
 
 **A) Match Card Hub**
 - Shows Slot A and Slot B "cards"
+- Shows selected match type
 - Each slot opens a selector modal
+- Match type opens a selector modal
 - Displays a reactive Notes line (e.g., Face vs Heel bonus)
-- Primary button: **Book Match** (disabled until both slots selected and A != B)
+- Primary button: **Book Match** (disabled until A, B, and match type are selected)
 - Navigation is **arrow-key centered**:
-  - `up/down` moves focus between Slot A card, Slot B card, and Book Match
+  - `up/down` moves focus between Slot A, Slot B, Match Type, and Book Match
   - `enter` activates the focused control
 
 **B) Select Wrestler Modal (Slot A / Slot B)**
@@ -67,20 +70,28 @@ vertical slices expand or revise the interface.
   - `enter` confirms the highlighted wrestler
   - `esc` cancels and returns to hub
 
-**C) Confirm Booking Modal**
-- Summary: `A vs B` + key stats
-- Optional: short "prediction" line (e.g., expected rating range)
+**C) Match Type Modal**
+- List of match types
+- Navigation:
+  - `up/down` moves selection within the list
+  - `enter` confirms the highlighted match type
+  - `esc` cancels and returns to hub
+
+**D) Confirm Booking Modal**
+- Summary: match type + `A vs B` + key stats
+- Proficiency shown for the selected match type
 - Navigation:
   - `left/right` switches between **Confirm** and **Back** buttons
   - `enter` activates the focused button
   - `esc` is equivalent to **Back**
 
-**D) Simulating Screen**
+**E) Simulating Screen**
 - Brief "Simulating..." step for pacing (progress bar or spinner)
 - No player input required
 
-**E) Results Screen**
+**F) Results Screen**
 - Winner (prominent)
+- Match type (prominent)
 - Rating (prominent)
 - Stat changes table:
   - Popularity: before -> after
@@ -98,6 +109,7 @@ vertical slices expand or revise the interface.
 **Flow**
 - Match Card Hub -> Select Wrestler (A) modal -> Hub (A filled)
 - Match Card Hub -> Select Wrestler (B) modal -> Hub (B filled)
+- Match Card Hub -> Select Match Type modal -> Hub (match type set)
 - Match Card Hub -> Confirm Booking modal -> Simulating -> Results
 - Results -> Book Another Match (clear slots) OR Re-match (same A/B)
 
@@ -110,8 +122,9 @@ vertical slices expand or revise the interface.
 
 **Hotkeys**
 - Global: `up/down`, `left/right` (where applicable), `enter`, `esc`
-- Match Card Hub: `up/down` focus Slot A / Slot B / Book Match, `enter` select
+- Match Card Hub: `up/down` focus Slot A / Slot B / Match Type / Book Match, `enter` select
 - Select Wrestler Modal: `up/down` move, `enter` pick, `esc` cancel
+- Match Type Modal: `up/down` move, `enter` pick, `esc` cancel
 - Confirm Booking Modal: `left/right` toggle Confirm/Back, `enter` select, `esc` back
 - Results: `up/down` focus action, `enter` select, `esc` (optional) return to hub
 
@@ -130,6 +143,9 @@ vertical slices expand or revise the interface.
 │                                      │
 │   Slot B                             │
 │   [ Select Wrestler ]                │
+│                                      │
+│   Match Type                          │
+│   [ Select Match Type ]              │
 │                                      │
 │   Notes: —                           │
 └──────────────────────────────────────┘
@@ -152,10 +168,32 @@ Keys: up/down Focus   enter Select   esc Back
                  │   Leo Nova    (FACE) │
                  ├──────────────────────┤
                  │ Pop: 48   Sta: 90    │
+                 │ Pro: Steel Cage  Yes │
                  ├──────────────────────┤
                  │ Enter Select         │
                  │ Esc   Cancel         │
                  └──────────────────────┘
+```
+
+**Select Match Type Modal**
+```text
+                 ┌────────────────────────┐
+                 │ Select Match Type      │
+                 ├────────────────────────┤
+                 │ > Singles              │
+                 │   Hardcore             │
+                 │   Ladder               │
+                 │   Steel Cage           │
+                 │   Falls Count Anywhere │
+                 │   Submission           │
+                 │   Iron Man             │
+                 │   TLC                  │
+                 │   Last Man Standing    │
+                 │   No DQ                │
+                 ├────────────────────────┤
+                 │ Enter Select           │
+                 │ Esc   Cancel           │
+                 └────────────────────────┘
 ```
 
 **Confirm Booking Modal**
@@ -163,11 +201,13 @@ Keys: up/down Focus   enter Select   esc Back
                  ┌──────────────────────┐
                  │ Confirm Booking      │
                  ├──────────────────────┤
+                 │ Match Type: Steel Cage│
+                 │                      │
                  │ Asha Blaze (FACE)    │
-                 │   Pop 48  Sta 90     │
+                 │   Pop 48  Sta 90 Pro Y│
                  │        vs            │
                  │ Rohan Steel (HEEL)   │
-                 │   Pop 52  Sta 85     │
+                 │   Pop 52  Sta 85 Pro N│
                  ├──────────────────────┤
                  │ > [ Confirm ] [ Back ]│
                  └──────────────────────┘
@@ -193,6 +233,7 @@ Asha Blaze (FACE)  vs  Rohan Steel (HEEL)
 └──────────────────────────────────────┘
 
 Winner: Rohan Steel (HEEL)
+Match Type: Steel Cage
 Rating: ★★★★☆ (78)
 
 Stat Changes
@@ -303,8 +344,8 @@ intentionally lightweight and will evolve as the slice is implemented.
 
 ## Vertical Slices
 
-All vertical slice details live under `slices/`. The current completed slice is:
-- `slices/vertical-slice-1.md`
+All vertical slice details live under `prd/slices/`. The current completed slice is:
+- `prd/slices/vertical-slice-1.md`
 
 ---
 
