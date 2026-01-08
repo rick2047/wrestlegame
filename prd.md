@@ -7,3 +7,4 @@ The PRD content is split by intent:
 
 ## Current Slice
 - `slices/vertical-slice-1.md`
+ - `slices/vertical-slice-2.md`

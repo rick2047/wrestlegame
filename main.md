@@ -218,6 +218,44 @@ Keys: up/down Focus   enter Select   esc Back
 
 ---
 
+## 3.5 Match Types (Brainstorm Draft)
+
+This section captures early notes for the upcoming match type slice. It is
+intentionally lightweight and will evolve as the slice is implemented.
+
+### Draft Match Type List (Placeholder)
+- Singles
+- Hardcore
+- Ladder
+- Steel Cage
+- Falls Count Anywhere
+- Submission
+- Iron Man
+- TLC
+- Last Man Standing
+- No DQ
+
+### Proficiency (Simple Model)
+- Each wrestler is either proficient or not in a given match type.
+- Proficiency is a binary flag per wrestler per match type.
+- Proficiency should be visible in selection and confirmation UI.
+
+### Expected Simulation Impact (Draft)
+- Rating
+  - Base rating still driven by popularity and alignment.
+  - Match type adds a modifier scaled by average proficiency (proficient pair performs better).
+- Stamina Loss
+  - Each match type has a base stamina cost (e.g., hardcore styles cost more).
+  - Proficiency reduces stamina loss slightly for proficient wrestlers.
+- Winner Odds
+  - Optional: proficiency adds a small weight bump toward the proficient wrestler.
+
+### UI Placement (Draft)
+- Match type is selected on the Match Card Hub before booking.
+- Hub notes line can reflect the selected match type and any synergy bonuses.
+
+---
+
 ## 4. Core Gameplay Loop (Placeholder)
 
 > To be expanded
