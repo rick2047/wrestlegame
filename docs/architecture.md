@@ -9,11 +9,11 @@ The prototype is divided into three layers:
 The goal is to keep simulation logic pure and testable, while the UI layer focuses on user flow and presentation.
 
 ## Data Flow
-1. **Selection**: the user selects Wrestler A and Wrestler B.
-2. **Confirmation**: the booking summary is shown.
+1. **Selection**: the user selects Wrestler A, Wrestler B, and match type.
+2. **Confirmation**: the booking summary is shown with match type and proficiency.
 3. **Simulation**: `simulate_match` computes winner, rating, and stat deltas.
 4. **Apply**: `apply_result` mutates the roster with clamped stats.
-5. **Results**: the UI shows winner, rating, and before/after stats.
+5. **Results**: the UI shows winner, match type, rating, and before/after stats.
 
 ## Modules and Responsibilities
 - `app.py`
@@ -22,6 +22,8 @@ The goal is to keep simulation logic pure and testable, while the UI layer focus
 - `domain/models.py`
   - `Wrestler`, `Match`, `MatchResult`, `StatDelta`.
   - `clamp_stat` for 0–100 bounds.
+- `domain/match_types.py`
+  - `MatchType` list and tuning data.
 - `domain/roster.py`
   - `seed_roster()` returns a small, hard-coded roster.
 - `domain/booking.py`
@@ -33,7 +35,7 @@ The goal is to keep simulation logic pure and testable, while the UI layer focus
 - `ui/state.py`
   - `AppState` for current selections and last result.
 - `ui/*`
-  - Screens for Hub, Selector, Confirm, Simulating, Results.
+  - Screens for Hub, Selector, Match Type Selector, Confirm, Simulating, Results.
   - `ui/styles.tcss` for layout and basic presentation.
 
 ## Extensibility Notes
