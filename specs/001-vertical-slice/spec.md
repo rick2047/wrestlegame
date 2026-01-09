@@ -11,7 +11,6 @@
 
 - Q: If wrestler or match type data is missing/empty at startup, what should the app do? → A: Load a small built-in fallback dataset.
 - Q: Should the system allow booking the same wrestler in both slots? → A: Block booking if both slots are the same wrestler.
-- Q: How should the UI handle labels at 40 columns? → A: Use fixed, shortened labels so nothing truncates at 40 columns.
 - Q: How should the system handle stat deltas that exceed 0–100 bounds? → A: Clamp popularity and stamina to 0–100 after applying deltas.
 - Q: If the user cancels a modal, should the selection be cleared? → A: Keep the previous selection (if any).
 
@@ -73,7 +72,6 @@ As a player, I want to choose a match type and have it change ratings and stat d
 - What happens when no wrestlers or match types are available at startup (fallback roster/match types should load)?
 - How does the system prevent booking when Slot A and Slot B are the same wrestler (booking must be blocked)?
 - What happens when stat changes would push popularity or stamina below 0 or above 100 (clamp to 0–100 after applying deltas)?
-- How does the UI behave if the terminal width is at or below 40 characters (use fixed, shortened labels to avoid truncation)?
 - How does the UI behave when a selection modal is cancelled (keep prior selection if present)?
 
 ## Requirements *(mandatory)*
@@ -95,7 +93,6 @@ As a player, I want to choose a match type and have it change ratings and stat d
 - **FR-010**: System MUST show a results screen with winner, rating, and popularity/stamina deltas.
 - **FR-011**: System MUST support rematch (preserve selections) and new match (reset selections).
 - **FR-012**: System MUST enforce keyboard-only navigation with a single active focus context.
-- **FR-012a**: System MUST use fixed, shortened labels so controls do not truncate at 40 columns.
 - **FR-013**: System MUST clamp popularity and stamina to 0–100 after applying deltas.
 - **FR-014**: System MUST complete the required flow without dead ends: hub, selection, type, confirm, simulate, results.
 
@@ -125,7 +122,6 @@ As a player, I want to choose a match type and have it change ratings and stat d
 - **SC-002**: Repeating a match with the same inputs and seed yields identical winner, rating, and deltas 100% of the time.
 - **SC-003**: In a 100-match test set, no popularity or stamina value falls below 0 or exceeds 100 after deltas are applied.
 - **SC-004**: 100% of interactive controls are reachable and operable using only keyboard inputs.
-- **SC-005**: All screens are readable and usable at a terminal width of 40 characters with no truncated control labels.
 
 ## Appendix: ASCII UI Mockups (Reference)
 

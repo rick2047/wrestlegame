@@ -3,7 +3,7 @@ Screen {
 }
 
 #hub {
-    width: 36;
+    width: 60;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -23,7 +23,7 @@ Screen {
 }
 
 #selector {
-    width: 36;
+    width: 60;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -53,7 +53,7 @@ Screen {
 }
 
 #confirm {
-    width: 36;
+    width: 60;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -71,7 +71,7 @@ Screen {
 }
 
 #sim {
-    width: 36;
+    width: 60;
     height: auto;
     padding: 2 2;
     border: round $surface;
@@ -83,7 +83,7 @@ Screen {
 }
 
 #results {
-    width: 36;
+    width: 60;
     height: auto;
     padding: 1 2;
     border: round $surface;

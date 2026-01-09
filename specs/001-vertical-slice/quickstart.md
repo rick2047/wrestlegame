@@ -20,4 +20,4 @@ uv run pytest
 ## Notes
 
 - Use a fixed seed when prompted to validate deterministic simulation.
-- The UI is designed for narrow terminals (40 columns or less).
+- The UI adapts to terminal size via Textual widgets.

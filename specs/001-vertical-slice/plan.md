@@ -13,10 +13,10 @@ Deliver the end-to-end single-match booking flow in the Textual TUI, with data-d
 **Primary Dependencies**: Textual, uv  
 **Storage**: JSON configuration files in `data/` (wrestlers, match types)  
 **Testing**: pytest  
-**Target Platform**: Local terminal (narrow width, <= 40 chars)  
+**Target Platform**: Local terminal  
 **Project Type**: single  
 **Performance Goals**: Interactive actions respond within 200ms on a local machine  
-**Constraints**: Keyboard-only navigation, deterministic simulation with seeded RNG, width <= 40 chars  
+**Constraints**: Keyboard-only navigation, deterministic simulation with seeded RNG  
 **Scale/Scope**: Single-match flow, small default roster and match type set
 
 ## Constitution Check

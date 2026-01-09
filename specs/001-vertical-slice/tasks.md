@@ -114,7 +114,7 @@ description: "Task list for WrestleGM Vertical Slice Match Flow"
 
 - [X] T025 [P] Add keyboard navigation coverage tests in `tests/test_keyboard_navigation.py`
 - [X] T026 [P] Enforce keyboard-only focus rules in `ui/hub.py`, `ui/selector.py`, `ui/match_type_selector.py`, `ui/confirm.py`, `ui/results.py`
-- [X] T027 [P] Ensure 40-column readability and focus styling in `ui/styles.tcss`
+- [X] T027 [P] Remove 40-column constraint from `ui/styles.tcss`
 - [X] T028 [P] Add manual validation checklist for SC-001 and SC-004 in `docs/testing.md`
 - [X] T029 [P] Update UI flow documentation in `docs/ui-flow.md`
 - [X] T030 [P] Update simulation documentation for match type modifiers and audit fields in `docs/simulation.md`

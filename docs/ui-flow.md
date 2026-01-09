@@ -9,7 +9,7 @@
 - **Results**: winner, rating, stat changes, and post-match actions.
 
 ## Navigation Model
-Primary keys are arrow-driven, but fallbacks are provided for terminals with limited key support.
+Primary keys are arrow-driven, with fallbacks for terminals with limited key support.
 
 - Hub / Results:
   - `Up` / `Down`: move focus.
