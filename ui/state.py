@@ -17,6 +17,7 @@ class AppState:
     """
     selected_a_id: Optional[str] = None
     selected_b_id: Optional[str] = None
+    selected_match_type_id: Optional[str] = None
     last_match: Optional[Match] = None
     last_result: Optional[MatchResult] = None
     seed: int = 1

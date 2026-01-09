@@ -48,11 +48,25 @@ class ResultsScreen(Screen):
         wrestler_a = roster[self.match.wrestler_a_id]
         wrestler_b = roster[self.match.wrestler_b_id]
         winner = wrestler_a if self.result.winner_id == wrestler_a.id else wrestler_b
-        summary = f"Winner: {winner.name} ({winner.alignment})\nRating: {self.result.rating}/100"
+        match_label = self.result.match_type_name
+        summary = (
+            f"Winner: {winner.name} ({winner.alignment})\n"
+            f"Match Type: {match_label}\n"
+            f"Rating: {self.result.rating}/100"
+        )
         self.query_one("#results-summary", Static).update(summary)
         self.query_one("#results-stats", Static).update(
             _format_stats(wrestler_a, wrestler_b, self.result)
         )
+        self.set_focus(self.query_one("#results-reset", Button))
+
+    def action_focus_next(self) -> None:
+        """Move focus to the next widget."""
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        """Move focus to the previous widget."""
+        self.focus_previous()
 
     @on(Button.Pressed, "#results-reset")
     def _on_reset(self) -> None:

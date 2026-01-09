@@ -5,7 +5,7 @@ This documentation describes the vertical slice prototype for booking and simula
 ## Goals
 - Provide a playable end-to-end loop: select A/B, confirm booking, simulate, and show results.
 - Keep simulation deterministic under a fixed seed for reproducibility and tests.
-- Ensure the TUI is readable on narrow terminals and navigable without a mouse.
+- Ensure the TUI is navigable without a mouse.
 
 ## Non-Goals
 - Multi-match cards, weeks/seasons, economy, or storylines.

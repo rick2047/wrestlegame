@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: WrestleGM Vertical Slice Contracts
+  version: 1.0.0
+  description: Logical contracts for data loading and simulation boundaries.
+paths:
+  /wrestlers:
+    get:
+      summary: List wrestlers
+      responses:
+        '200':
+          description: Wrestler list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wrestlers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WrestlerDefinition'
+  /match-types:
+    get:
+      summary: List match types
+      responses:
+        '200':
+          description: Match type list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  match_types:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MatchTypeDefinition'
+  /matches/simulate:
+    post:
+      summary: Simulate a match
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchRequest'
+      responses:
+        '200':
+          description: Match result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchResult'
+components:
+  schemas:
+    WrestlerDefinition:
+      type: object
+      required: [id, name, alignment, popularity, stamina]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        alignment:
+          type: string
+          enum: [Face, Heel]
+        popularity:
+          type: integer
+          minimum: 0
+          maximum: 100
+        stamina:
+          type: integer
+          minimum: 0
+          maximum: 100
+    MatchTypeDefinition:
+      type: object
+      required: [id, name, modifiers]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        modifiers:
+          $ref: '#/components/schemas/MatchTypeModifiers'
+    MatchTypeModifiers:
+      type: object
+      required:
+        - rating_bonus
+        - rating_variance
+        - stamina_cost_winner
+        - stamina_cost_loser
+        - popularity_delta_winner
+        - popularity_delta_loser
+      properties:
+        rating_bonus:
+          type: integer
+        rating_variance:
+          type: integer
+        stamina_cost_winner:
+          type: integer
+        stamina_cost_loser:
+          type: integer
+        popularity_delta_winner:
+          type: integer
+        popularity_delta_loser:
+          type: integer
+    MatchRequest:
+      type: object
+      required: [wrestler_a_id, wrestler_b_id, match_type_id, seed]
+      properties:
+        wrestler_a_id:
+          type: string
+        wrestler_b_id:
+          type: string
+        match_type_id:
+          type: string
+        seed:
+          type: string
+    MatchResult:
+      type: object
+      required:
+        - match_type_id
+        - match_type_name
+        - applied_modifiers
+        - winner_id
+        - loser_id
+        - rating
+        - popularity_delta_winner
+        - popularity_delta_loser
+        - stamina_cost_winner
+        - stamina_cost_loser
+      properties:
+        match_type_id:
+          type: string
+        match_type_name:
+          type: string
+        applied_modifiers:
+          $ref: '#/components/schemas/MatchTypeModifiers'
+        winner_id:
+          type: string
+        loser_id:
+          type: string
+        rating:
+          type: integer
+        popularity_delta_winner:
+          type: integer
+        popularity_delta_loser:
+          type: integer
+        stamina_cost_winner:
+          type: integer
+        stamina_cost_loser:
+          type: integer
