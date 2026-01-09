@@ -5,8 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, Literal, Set
 
-from domain.match_types import MatchType
-
 Alignment = Literal["Face", "Heel"]
 
 
@@ -30,16 +28,16 @@ class Wrestler:
     alignment: Alignment
     popularity: int
     stamina: int
-    match_type_proficiency: Set[MatchType] = field(default_factory=set)
+    match_type_proficiency: Set[str] = field(default_factory=set)
 
     def __post_init__(self) -> None:
         """Normalize stats on creation."""
         self.popularity = clamp_stat(self.popularity)
         self.stamina = clamp_stat(self.stamina)
 
-    def is_proficient(self, match_type: MatchType) -> bool:
+    def is_proficient(self, match_type_id: str) -> bool:
         """Return True if the wrestler is proficient in the match type."""
-        return match_type in self.match_type_proficiency
+        return match_type_id in self.match_type_proficiency
 
 
 @dataclass(frozen=True)
@@ -50,7 +48,7 @@ class Match:
     """
     wrestler_a_id: str
     wrestler_b_id: str
-    match_type: MatchType
+    match_type_id: str
 
 
 @dataclass(frozen=True)
@@ -69,6 +67,9 @@ class MatchResult:
 
     The result includes the winner/loser IDs, a rating, and per-wrestler deltas.
     """
+    match_type_id: str
+    match_type_name: str
+    applied_modifiers: Dict[str, int]
     winner_id: str
     loser_id: str
     rating: int

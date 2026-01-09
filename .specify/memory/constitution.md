@@ -1,87 +1,64 @@
 <!--
-Sync Impact Report
-- Version change: 0.2.0 -> 0.2.1
-- Modified principles: Added VI. Standard Tooling and Minimal Dependencies; Added VII. Clear, Extensive Documentation
-- Added sections: Tooling & Dependency Management
-- Removed sections: None
-- Templates requiring updates: ✅ .specify/templates/plan-template.md; ✅ .specify/templates/tasks-template.md; ✅ .specify/templates/spec-template.md (no changes needed); ✅ .specify/templates/commands/README.md; ✅ .specify/templates/commands/plan.md; ✅ .specify/templates/commands/spec.md; ✅ .specify/templates/commands/tasks.md; ✅ README.md (no changes needed); ✅ docs/testing.md (no changes needed)
-- Follow-up TODOs: TODO(RATIFICATION_DATE): original adoption date unknown
+Sync Impact Report:
+Version change: template -> 1.0.0
+Modified principles: placeholders -> Clean Code, Documentation, Testing, Tooling, Commits
+Added sections: Technology & Tooling Requirements, Development Workflow & Quality Gates
+Removed sections: none
+Templates requiring updates:
+- ✅ /home/droid/wrestlegame/.specify/templates/commands/plan.md
+- ✅ /home/droid/wrestlegame/.specify/templates/commands/spec.md
+- ✅ /home/droid/wrestlegame/.specify/templates/commands/tasks.md
+- ✅ /home/droid/wrestlegame/.specify/templates/commands/README.md
+- ✅ /home/droid/wrestlegame/.specify/templates/tasks-template.md
+- ✅ /home/droid/wrestlegame/README.md
+Follow-up TODOs:
+- None.
 -->
-# WrestleGM Vertical Slice Constitution
+# WrestleGM Constitution
 
 ## Core Principles
 
-### I. Clear Names and Intent
-- Names MUST reveal intent using domain terms from `prd/main.md` where applicable.
-- Avoid abbreviations and overloaded terms; rename when behavior evolves.
-- Public APIs, models, and UI labels MUST use consistent naming for the same concept.
-Rationale: Clear naming reduces cognitive load and prevents semantic drift.
+### Clean Code And Single Purpose
+Code MUST be readable, intentionally named, and organized into small single-purpose
+units. Avoid duplication and keep business rules centralized. Prefer explicit logic
+over cleverness, and keep functions and classes narrowly scoped.
 
-### II. Small, Single-Purpose Units
-- Functions and classes MUST have one reason to change; split when they mix concerns.
-- UI composition MUST stay in `ui/`; sim rules and RNG usage MUST stay in `sim/`.
-- Domain validation MUST stay in `domain/` and remain UI-agnostic.
-Rationale: Single-purpose units keep changes localized and make code easier to test.
+### Documentation Always Updated
+Any behavior change MUST update the relevant documentation in `docs/` and keep
+MkDocs pages accurate. If no documentation changes are needed, the commit MUST
+state why.
 
-### III. Single Source of Truth
-- Business rules and validation logic MUST live in one place and be reused.
-- Copy-pasted logic is not allowed; refactor into helpers or shared modules instead.
-- Derived values MUST be computed consistently from the same inputs.
-Rationale: A single source prevents divergence and subtle behavior differences.
+### Test-Heavy Development
+All new behavior MUST include meaningful tests that cover core flows and edge
+cases. Determinism and validation logic require dedicated tests. Use pytest and
+keep tests maintainable.
 
-### IV. Explicit Validation and Error Paths
-- Validate inputs at boundaries (UI, sim entry points, and domain constructors).
-- Errors MUST be explicit (exceptions or typed results) and contain actionable context.
-- Silent failures and broad exception swallowing are not allowed.
-Rationale: Clear error paths make defects diagnosable and safe to handle.
+### Python-Only Tooling
+All production code MUST be Python. Dependencies are managed with `uv`, tests use
+pytest, and documentation uses MkDocs. Avoid adding non-Python tooling unless
+explicitly approved.
 
-### V. Deterministic, Testable Logic
-- Simulation and validation logic MUST be deterministic with the seeded RNG wrapper.
-- Side effects (UI updates, IO) MUST be isolated from pure logic.
-- Changes to `sim/` or `domain/` MUST include tests covering new or changed behavior.
-Rationale: Determinism and tests keep outcomes stable and regressions visible.
+### Frequent Structured Commits
+Work MUST be committed in small increments. Commit messages MUST have a short
+header and a detailed explanation body.
 
-### VI. Standard Tooling and Minimal Dependencies
-- Code MUST be Python and use `uv` for dependency management.
-- New dependencies MUST be justified and kept to the minimum required set.
-- Tests MUST use pytest unless a specific exception is documented.
-Rationale: Consistent tooling and small dependency graphs reduce friction and risk.
+## Technology & Tooling Requirements
 
-### VII. Clear, Extensive Documentation
-- Documentation MUST be thorough enough to onboard a new contributor.
-- Docs MUST prioritize clarity and plain language over completeness.
-- Updates that change behavior MUST include matching documentation changes.
-Rationale: Clear documentation preserves shared understanding over time.
-
-## Module Boundaries & Dependencies
-
-- `ui/` MAY depend on `domain/` and `sim/`, but MUST NOT embed rules.
-- `sim/` MAY depend on `domain/` and MUST remain free of UI concerns.
-- `domain/` MUST be pure data/validation with no UI or RNG dependencies.
-- Cross-module imports MUST follow these directions and avoid cycles.
-
-## Tooling & Dependency Management
-
-- Use Python 3.10+ and manage dependencies with `uv`.
-- Avoid adding dependencies without a clear, documented need and alternatives review.
-- Prefer standard library solutions when they meet requirements.
+- Python 3.10+ only for application code.
+- `uv` is required for dependency management.
+- pytest is required for test execution.
+- MkDocs is required for documentation builds.
 
 ## Development Workflow & Quality Gates
 
-- Every change MUST keep code readable with meaningful names and focused units.
-- For `sim/` and `domain/` changes, add/adjust tests and run `uv run pytest`,
-  or document why tests were not run.
-- Refactors MUST preserve behavior; if behavior changes, update docs and tests.
-- Keep functions and modules small; when in doubt, split by responsibility.
-- Commit frequently with short headers and detailed bodies explaining what changed
-  and why.
+- Every change MUST include appropriate tests and updated documentation.
+- Deterministic simulation changes MUST include reproducibility tests.
+- Changes that affect user flows MUST update `docs/` and `mkdocs` content.
 
 ## Governance
 
-- This constitution supersedes all other development guidance.
-- Amendments require an update to this file, a rationale, and a version bump
-  following semantic versioning (MAJOR breaking, MINOR additive, PATCH clarifying).
-- Reviews MUST include a constitution compliance check and note any exceptions.
-- Use `AGENTS.md` and `prd/main.md` for runtime development guidance.
+This constitution supersedes all other practices. Amendments MUST be documented,
+versioned, and reviewed before adoption. Compliance MUST be checked during code
+review. Commit messages MUST include a short header and a detailed body.
 
-**Version**: 0.2.1 | **Ratified**: TODO(RATIFICATION_DATE): original adoption date unknown | **Last Amended**: 2026-01-08
+**Version**: 1.0.0 | **Ratified**: 2026-01-09 | **Last Amended**: 2026-01-09

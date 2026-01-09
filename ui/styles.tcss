@@ -3,7 +3,7 @@ Screen {
 }
 
 #hub {
-    width: 60;
+    width: 36;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -23,7 +23,7 @@ Screen {
 }
 
 #selector {
-    width: 60;
+    width: 36;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -36,7 +36,7 @@ Screen {
 }
 
 #roster-list {
-    height: 10;
+    height: 7;
     border: round $surface;
     margin-bottom: 1;
 }
@@ -53,7 +53,7 @@ Screen {
 }
 
 #confirm {
-    width: 60;
+    width: 36;
     height: auto;
     padding: 1 2;
     border: round $surface;
@@ -71,7 +71,7 @@ Screen {
 }
 
 #sim {
-    width: 60;
+    width: 36;
     height: auto;
     padding: 2 2;
     border: round $surface;
@@ -83,7 +83,7 @@ Screen {
 }
 
 #results {
-    width: 60;
+    width: 36;
     height: auto;
     padding: 1 2;
     border: round $surface;

@@ -11,10 +11,10 @@ from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Label, ListItem, ListView, Static
 
-from domain.match_types import MATCH_TYPES, MatchType
+from domain.match_types import MatchTypeDefinition
 
 
-class MatchTypeSelectorScreen(ModalScreen[Optional[MatchType]]):
+class MatchTypeSelectorScreen(ModalScreen[Optional[str]]):
     """Modal for selecting a match type."""
 
     BINDINGS = [
@@ -22,10 +22,11 @@ class MatchTypeSelectorScreen(ModalScreen[Optional[MatchType]]):
         ("enter", "select", "Select"),
     ]
 
-    def __init__(self) -> None:
+    def __init__(self, match_types: List[MatchTypeDefinition]) -> None:
         """Create the match type selector."""
         super().__init__()
-        self._order: List[MatchType] = []
+        self.match_types = match_types
+        self._order: List[str] = []
 
     def compose(self) -> ComposeResult:
         """Compose the match type selector layout."""
@@ -39,10 +40,18 @@ class MatchTypeSelectorScreen(ModalScreen[Optional[MatchType]]):
     def on_mount(self) -> None:
         """Populate match type list and set initial focus."""
         match_type_list = self.query_one("#match-type-list", ListView)
-        for match_type in MATCH_TYPES:
-            match_type_list.append(ListItem(Label(match_type.label), id=match_type.id))
+        for match_type in self.match_types:
+            match_type_list.append(ListItem(Label(match_type.name), id=match_type.id))
             self._order.append(match_type.id)
         self.set_focus(match_type_list)
+
+    def action_focus_next(self) -> None:
+        """Move focus to the next widget."""
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        """Move focus to the previous widget."""
+        self.focus_previous()
 
     @on(ListView.Selected)
     def _on_selected(self, event: ListView.Selected) -> None:

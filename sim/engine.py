@@ -4,26 +4,33 @@ from __future__ import annotations
 
 from typing import Dict
 
-from domain.match_types import MATCH_TYPE_LOOKUP
+from domain.match_types import MatchTypeDefinition
 from domain.models import Match, MatchResult, StatDelta, Wrestler, clamp_stat
 from sim.rng import RNG
 
 
-def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> MatchResult:
+def simulate_match(
+    match: Match,
+    roster: Dict[str, Wrestler],
+    match_types: Dict[str, MatchTypeDefinition],
+    seed: int,
+) -> MatchResult:
     """Simulate a match and return a deterministic MatchResult.
 
     Inputs:
     - match: the booked pairing by wrestler IDs.
     - roster: lookup table for stats used in weighting and rating.
+    - match_types: lookup table for match type tuning.
     - seed: RNG seed to make outcomes reproducible.
     """
     rng = RNG(seed)
     wrestler_a = roster[match.wrestler_a_id]
     wrestler_b = roster[match.wrestler_b_id]
 
-    match_profile = MATCH_TYPE_LOOKUP[match.match_type]
-    a_proficient = wrestler_a.is_proficient(match.match_type)
-    b_proficient = wrestler_b.is_proficient(match.match_type)
+    match_profile = match_types[match.match_type_id]
+    modifiers = match_profile.modifiers
+    a_proficient = wrestler_a.is_proficient(match.match_type_id)
+    b_proficient = wrestler_b.is_proficient(match.match_type_id)
 
     # Weight outcome by core stats with a small randomness band and proficiency bump.
     a_weight = (
@@ -57,34 +64,46 @@ def simulate_match(match: Match, roster: Dict[str, Wrestler], seed: int) -> Matc
         penalty -= 5
     if wrestler_b.stamina < 40:
         penalty -= 5
-    variance = rng.randint(-5, 5)
+    variance = rng.randint(-modifiers.rating_variance, modifiers.rating_variance)
     rating = clamp_stat(
-        int(base + bonus + match_profile.rating_bonus + proficiency_bonus + penalty + variance)
+        int(
+            base
+            + bonus
+            + modifiers.rating_bonus
+            + proficiency_bonus
+            + penalty
+            + variance
+        )
     )
 
     # Apply small, bounded deltas so results feel meaningful but stable.
-    winner_popularity = 3
-    loser_popularity = -1
-    stamina_roll = match_profile.stamina_cost + rng.randint(0, 4)
-    stamina_loss_a = max(1, stamina_roll - (2 if a_proficient else 0))
-    stamina_loss_b = max(1, stamina_roll - (2 if b_proficient else 0))
-    stamina_by_id = {
-        wrestler_a.id: stamina_loss_a,
-        wrestler_b.id: stamina_loss_b,
-    }
+    winner_popularity = modifiers.popularity_delta_winner
+    loser_popularity = modifiers.popularity_delta_loser
+    winner_stamina = max(1, modifiers.stamina_cost_winner + rng.randint(0, 2))
+    loser_stamina = max(1, modifiers.stamina_cost_loser + rng.randint(0, 2))
+
+    stamina_loss_a = winner_stamina if winner_id == wrestler_a.id else loser_stamina
+    stamina_loss_b = winner_stamina if winner_id == wrestler_b.id else loser_stamina
+    if a_proficient:
+        stamina_loss_a = max(1, stamina_loss_a - 2)
+    if b_proficient:
+        stamina_loss_b = max(1, stamina_loss_b - 2)
 
     deltas = {
-        winner_id: StatDelta(
-            popularity=winner_popularity,
-            stamina=-stamina_by_id[winner_id],
+        wrestler_a.id: StatDelta(
+            popularity=winner_popularity if winner_id == wrestler_a.id else loser_popularity,
+            stamina=-stamina_loss_a,
         ),
-        loser_id: StatDelta(
-            popularity=loser_popularity,
-            stamina=-stamina_by_id[loser_id],
+        wrestler_b.id: StatDelta(
+            popularity=winner_popularity if winner_id == wrestler_b.id else loser_popularity,
+            stamina=-stamina_loss_b,
         ),
     }
 
     return MatchResult(
+        match_type_id=match_profile.id,
+        match_type_name=match_profile.name,
+        applied_modifiers=modifiers.as_dict(),
         winner_id=winner_id,
         loser_id=loser_id,
         rating=rating,

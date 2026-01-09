@@ -11,7 +11,7 @@ from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Label, ListItem, ListView, Static
 
-from domain.match_types import MATCH_TYPE_LOOKUP, MatchType
+from domain.match_types import MatchTypeDefinition
 from domain.models import Wrestler
 
 
@@ -31,14 +31,16 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         roster: Dict[str, Wrestler],
         slot_label: str,
         locked_id: Optional[str],
-        match_type: Optional[MatchType],
+        match_type_id: Optional[str],
+        match_types: Dict[str, MatchTypeDefinition],
     ) -> None:
         """Store roster data, slot label, and locked opponent ID."""
         super().__init__()
         self.roster = roster
         self.slot_label = slot_label
         self.locked_id = locked_id
-        self.match_type = match_type
+        self.match_type_id = match_type_id
+        self.match_types = match_types
         self._order: List[str] = []
 
     def compose(self) -> ComposeResult:
@@ -62,6 +64,14 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         self.set_focus(roster_list)
         self._update_detail()
 
+    def action_focus_next(self) -> None:
+        """Move focus to the next widget."""
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        """Move focus to the previous widget."""
+        self.focus_previous()
+
     @on(ListView.Highlighted)
     def _on_highlighted(self, _: ListView.Highlighted) -> None:
         """Update detail panel when list selection changes."""
@@ -84,9 +94,9 @@ class SelectorScreen(ModalScreen[Optional[str]]):
         wrestler_id = self._order[roster_list.index]
         wrestler = self.roster[wrestler_id]
         proficiency = "Select match type"
-        if self.match_type:
-            label = MATCH_TYPE_LOOKUP[self.match_type].label
-            proficiency = "Yes" if wrestler.is_proficient(self.match_type) else "No"
+        if self.match_type_id and self.match_type_id in self.match_types:
+            label = self.match_types[self.match_type_id].name
+            proficiency = "Yes" if wrestler.is_proficient(self.match_type_id) else "No"
             proficiency = f"{label}: {proficiency}"
         detail = (
             f"Alignment: {wrestler.alignment}\n"

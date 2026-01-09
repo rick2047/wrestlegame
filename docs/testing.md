@@ -18,3 +18,7 @@ uv run pytest
 - Place new tests in `tests/test_*.py`.
 - Prefer small unit tests around `domain/` and `sim/`.
 - Keep tests deterministic and avoid dependence on UI components.
+
+## Manual Validation Checklist
+- **SC-001**: Complete the full loop (Hub → Confirm → Simulating → Results) in under 60 seconds.
+- **SC-004**: Verify every interactive control is reachable and usable with keyboard only.

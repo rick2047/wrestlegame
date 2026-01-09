@@ -39,4 +39,7 @@ The hub displays a reactive note based on the selected wrestlers:
 - Face vs Heel: shows bonus note.
 - Same alignment: shows a neutral note.
 - One or both empty: shows “—”.
-When a match type is selected, the hub appends the match type label to the note.
+When a match type is selected, the hub appends the match type name to the note.
+
+## Cancel Behavior
+Cancelling the wrestler or match type selection modal preserves the prior selection.

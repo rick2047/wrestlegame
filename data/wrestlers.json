@@ -1,0 +1,46 @@
+{
+  "wrestlers": [
+    {
+      "id": "john_steel",
+      "name": "John Steel",
+      "alignment": "Face",
+      "popularity": 75,
+      "stamina": 80
+    },
+    {
+      "id": "max_power",
+      "name": "Max Power",
+      "alignment": "Heel",
+      "popularity": 68,
+      "stamina": 85
+    },
+    {
+      "id": "night_fang",
+      "name": "Night Fang",
+      "alignment": "Heel",
+      "popularity": 72,
+      "stamina": 70
+    },
+    {
+      "id": "ivy_wren",
+      "name": "Ivy Wren",
+      "alignment": "Heel",
+      "popularity": 50,
+      "stamina": 66
+    },
+    {
+      "id": "leo_nova",
+      "name": "Leo Nova",
+      "alignment": "Face",
+      "popularity": 61,
+      "stamina": 70
+    },
+    {
+      "id": "asha_blaze",
+      "name": "Asha Blaze",
+      "alignment": "Face",
+      "popularity": 48,
+      "stamina": 90
+    }
+  ]
+}

@@ -37,3 +37,12 @@ No build step is required for the current prototype.
 ## Configuration & Data Notes
 - Use `uv sync` after dependency changes to refresh `.venv` and `uv.lock`.
 - The RNG seed is entered at startup; use a fixed seed for deterministic behavior during testing.
+
+## Active Technologies
+- Python 3.10+ + Textual (UI), pytest (tests), uv (env/deps) (001-extract-prd-specs)
+- N/A (documentation-only outputs) (001-extract-prd-specs)
+- Python 3.10+ + Textual, uv (001-vertical-slice)
+- JSON configuration files in `data/` (wrestlers, match types) (001-vertical-slice)
+
+## Recent Changes
+- 001-extract-prd-specs: Added Python 3.10+ + Textual (UI), pytest (tests), uv (env/deps)

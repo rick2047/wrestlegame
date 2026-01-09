@@ -27,3 +27,8 @@ This repo includes a MkDocs-based design doc set in `docs/`.
 ```bash
 uv run mkdocs serve
 ```
+
+## Contribution Expectations
+- Keep documentation in `docs/` updated for any behavior changes.
+- Add tests for new behavior and edge cases (pytest).
+- Use short commit headers with a detailed explanation body.

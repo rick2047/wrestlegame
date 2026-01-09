@@ -11,4 +11,4 @@ This directory documents how `/speckit.*` commands populate spec artifacts.
 - All outputs must comply with `.specify/memory/constitution.md`.
 - Use Python + `uv` tooling and pytest for tests.
 - Keep dependencies minimal; prefer the standard library.
-- Document behavior changes in `docs/`.
+- Document behavior changes in `docs/` and keep MkDocs current.

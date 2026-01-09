@@ -12,7 +12,7 @@ from textual.screen import Screen
 from textual.widgets import Button, Footer, Header, Static
 
 from domain.booking import is_valid_booking
-from domain.match_types import MATCH_TYPE_LOOKUP, MatchType
+from domain.match_types import MatchTypeDefinition
 from domain.models import Wrestler
 
 
@@ -42,21 +42,30 @@ class HubScreen(Screen):
         """Set initial focus to the first slot."""
         self.set_focus(self.query_one("#slot-a", Button))
 
+    def action_focus_next(self) -> None:
+        """Move focus to the next widget."""
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        """Move focus to the previous widget."""
+        self.focus_previous()
+
     def update_view(
         self,
         roster: Dict[str, Wrestler],
         selected_a_id: Optional[str],
         selected_b_id: Optional[str],
-        selected_match_type: Optional[MatchType],
+        match_types: Dict[str, MatchTypeDefinition],
+        selected_match_type_id: Optional[str],
     ) -> None:
         """Update slot labels, notes, and booking button state."""
         slot_a = roster[selected_a_id].name if selected_a_id else "Empty"
         slot_b = roster[selected_b_id].name if selected_b_id else "Empty"
         self.query_one("#slot-a", Button).label = f"Slot A: {slot_a}"
         self.query_one("#slot-b", Button).label = f"Slot B: {slot_b}"
-        match_type_label = (
-            MATCH_TYPE_LOOKUP[selected_match_type].label if selected_match_type else "Unset"
-        )
+        match_type_label = "Unset"
+        if selected_match_type_id and selected_match_type_id in match_types:
+            match_type_label = match_types[selected_match_type_id].name
         self.query_one("#match-type", Button).label = f"Match Type: {match_type_label}"
 
         notes = "—"
@@ -67,13 +76,16 @@ class HubScreen(Screen):
                 notes = "Face vs Heel bonus"
             else:
                 notes = "Same alignment"
-        if selected_match_type:
-            notes = f"{notes} | {MATCH_TYPE_LOOKUP[selected_match_type].label}"
+        if selected_match_type_id and selected_match_type_id in match_types:
+            notes = f"{notes} | {match_types[selected_match_type_id].name}"
         self.query_one("#notes", Static).update(f"Notes: {notes}")
 
         book_button = self.query_one("#book", Button)
         book_button.disabled = not is_valid_booking(
-            selected_a_id, selected_b_id, selected_match_type
+            selected_a_id,
+            selected_b_id,
+            selected_match_type_id,
+            set(match_types.keys()),
         )
 
     @on(Button.Pressed, "#slot-a")

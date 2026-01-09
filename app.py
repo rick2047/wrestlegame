@@ -7,7 +7,7 @@ from typing import Optional
 from textual.app import App
 
 from domain.booking import is_valid_booking
-from domain.match_types import MatchType
+from domain.match_types import load_match_types
 from domain.models import Match
 from domain.roster import seed_roster
 from sim.engine import apply_result, simulate_match
@@ -34,6 +34,7 @@ class WrestleGMApp(App):
         """Initialize roster and application state."""
         super().__init__()
         self.roster = seed_roster()
+        self.match_types = load_match_types()
         self.state = AppState()
 
     def on_mount(self) -> None:
@@ -49,7 +50,8 @@ class WrestleGMApp(App):
                 self.roster,
                 self.state.selected_a_id,
                 self.state.selected_b_id,
-                self.state.selected_match_type,
+                self.match_types,
+                self.state.selected_match_type_id,
             )
 
     def open_selector(self, slot_label: str) -> None:
@@ -68,25 +70,32 @@ class WrestleGMApp(App):
             self.refresh_hub()
 
         self.push_screen(
-            SelectorScreen(self.roster, slot_label, locked_id, self.state.selected_match_type),
+            SelectorScreen(
+                self.roster,
+                slot_label,
+                locked_id,
+                self.state.selected_match_type_id,
+                self.match_types,
+            ),
             _on_selection,
         )
 
     def open_confirm(self) -> None:
         """Open booking confirmation modal if selection is valid."""
-        if not self.state.selected_match_type:
+        if not self.state.selected_match_type_id:
             self.notify("Select a match type before booking.", severity="warning")
             return
         if not is_valid_booking(
             self.state.selected_a_id,
             self.state.selected_b_id,
-            self.state.selected_match_type,
+            self.state.selected_match_type_id,
+            set(self.match_types.keys()),
         ):
             self.notify("Select two different wrestlers before booking.", severity="warning")
             return
         wrestler_a = self.roster[self.state.selected_a_id]
         wrestler_b = self.roster[self.state.selected_b_id]
-        match_type = self.state.selected_match_type
+        match_type = self.match_types[self.state.selected_match_type_id]
 
         def _on_confirm(confirmed: bool) -> None:
             """Simulate the match if the user confirms."""
@@ -100,16 +109,17 @@ class WrestleGMApp(App):
         if not is_valid_booking(
             self.state.selected_a_id,
             self.state.selected_b_id,
-            self.state.selected_match_type,
+            self.state.selected_match_type_id,
+            set(self.match_types.keys()),
         ):
             return
-        if self.state.selected_match_type is None:
+        if self.state.selected_match_type_id is None:
             return
         match = Match(
-            self.state.selected_a_id, self.state.selected_b_id, self.state.selected_match_type
+            self.state.selected_a_id, self.state.selected_b_id, self.state.selected_match_type_id
         )
         # Simulation is pure; roster is mutated only by apply_result.
-        result = simulate_match(match, self.roster, self.state.seed)
+        result = simulate_match(match, self.roster, self.match_types, self.state.seed)
         apply_result(self.roster, result)
         self.state.last_match = match
         self.state.last_result = result
@@ -120,7 +130,7 @@ class WrestleGMApp(App):
         """Clear the current booking and return to an empty hub state."""
         self.state.selected_a_id = None
         self.state.selected_b_id = None
-        self.state.selected_match_type = None
+        self.state.selected_match_type_id = None
         self.state.last_match = None
         self.state.last_result = None
         self.refresh_hub()
@@ -130,7 +140,7 @@ class WrestleGMApp(App):
         if not self.state.last_match:
             return
         match = self.state.last_match
-        result = simulate_match(match, self.roster, self.state.seed)
+        result = simulate_match(match, self.roster, self.match_types, self.state.seed)
         apply_result(self.roster, result)
         self.state.last_result = result
         self.state.seed += 1
@@ -139,13 +149,15 @@ class WrestleGMApp(App):
     def open_match_type(self) -> None:
         """Open the match type selection modal."""
 
-        def _on_selection(selected_type: Optional[MatchType]) -> None:
+        def _on_selection(selected_type: Optional[str]) -> None:
             """Apply match type selection and refresh the hub."""
             if selected_type:
-                self.state.selected_match_type = selected_type
+                self.state.selected_match_type_id = selected_type
             self.refresh_hub()
 
-        self.push_screen(MatchTypeSelectorScreen(), _on_selection)
+        self.push_screen(
+            MatchTypeSelectorScreen(list(self.match_types.values())), _on_selection
+        )
 
 
 if __name__ == "__main__":

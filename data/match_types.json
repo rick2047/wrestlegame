@@ -1,0 +1,43 @@
+{
+  "match_types": [
+    {
+      "id": "singles",
+      "name": "Singles",
+      "description": "Standard one-on-one match",
+      "modifiers": {
+        "rating_bonus": 0,
+        "rating_variance": 5,
+        "stamina_cost_winner": 10,
+        "stamina_cost_loser": 12,
+        "popularity_delta_winner": 4,
+        "popularity_delta_loser": -2
+      }
+    },
+    {
+      "id": "no_dq",
+      "name": "No Disqualification",
+      "description": "Weapons allowed, higher risk",
+      "modifiers": {
+        "rating_bonus": 5,
+        "rating_variance": 10,
+        "stamina_cost_winner": 14,
+        "stamina_cost_loser": 16,
+        "popularity_delta_winner": 6,
+        "popularity_delta_loser": -3
+      }
+    },
+    {
+      "id": "hardcore",
+      "name": "Hardcore",
+      "description": "Extreme rules, very high variance",
+      "modifiers": {
+        "rating_bonus": 10,
+        "rating_variance": 18,
+        "stamina_cost_winner": 20,
+        "stamina_cost_loser": 22,
+        "popularity_delta_winner": 8,
+        "popularity_delta_loser": -4
+      }
+    }
+  ]
+}

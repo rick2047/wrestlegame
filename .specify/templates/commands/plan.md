@@ -23,7 +23,7 @@ constitution and repo layout.
 - No duplicated business rules; share logic via one module.
 - Explicit validation and error paths at boundaries.
 - Deterministic sim/domain logic with seeded RNG; tests required for changes.
-- Python + `uv` only; pytest for tests; minimal dependencies.
+- Python-only code; `uv` for deps; pytest for tests; MkDocs for docs.
 - Documentation updates planned for any behavior changes.
 
 ## Output

@@ -9,7 +9,7 @@ from textual.events import Key
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Static
 
-from domain.match_types import MATCH_TYPE_LOOKUP, MatchType
+from domain.match_types import MatchTypeDefinition
 from domain.models import Wrestler
 
 
@@ -24,7 +24,12 @@ class ConfirmScreen(ModalScreen[bool]):
         ("right", "focus_next", "Right"),
     ]
 
-    def __init__(self, wrestler_a: Wrestler, wrestler_b: Wrestler, match_type: MatchType) -> None:
+    def __init__(
+        self,
+        wrestler_a: Wrestler,
+        wrestler_b: Wrestler,
+        match_type: MatchTypeDefinition,
+    ) -> None:
         """Create the modal with selected wrestlers."""
         super().__init__()
         self.wrestler_a = wrestler_a
@@ -33,9 +38,13 @@ class ConfirmScreen(ModalScreen[bool]):
 
     def compose(self) -> ComposeResult:
         """Compose the confirmation layout."""
-        match_label = MATCH_TYPE_LOOKUP[self.match_type].label
-        a_proficient = "Yes" if self.wrestler_a.is_proficient(self.match_type) else "No"
-        b_proficient = "Yes" if self.wrestler_b.is_proficient(self.match_type) else "No"
+        match_label = self.match_type.name
+        a_proficient = (
+            "Yes" if self.wrestler_a.is_proficient(self.match_type.id) else "No"
+        )
+        b_proficient = (
+            "Yes" if self.wrestler_b.is_proficient(self.match_type.id) else "No"
+        )
         with Container(id="confirm"):
             yield Label("Confirm Booking", id="confirm-title")
             yield Static(

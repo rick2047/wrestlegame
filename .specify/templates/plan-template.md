@@ -31,16 +31,7 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- Names and terms reflect domain language from `prd/main.md`; no misleading
-  abbreviations.
-- Functions/classes are single-purpose; UI logic stays in `ui/`, sim logic in `sim/`,
-  validation in `domain/`.
-- No duplicated business rules; shared logic lives in one module.
-- Input validation and error paths are explicit and actionable.
-- Sim/domain changes include deterministic tests with the seeded RNG wrapper.
-- Python and `uv` are the only supported tooling; pytest is used for tests.
-- Dependencies are justified and minimized; prefer the standard library.
-- Documentation updates are planned alongside behavior changes.
+[Gates determined based on constitution file]
 
 ## Project Structure
 

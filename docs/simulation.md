@@ -12,19 +12,25 @@ The RNG picks a winner using weighted choice. Higher stats win more often, but u
 Rating is clamped to 0–100 and computed as:
 - Base: average popularity of both wrestlers.
 - Bonus: +5 if Face vs Heel.
-- Match type bonus: fixed bonus per match type.
+- Match type bonus: `rating_bonus` from the selected match type.
 - Proficiency bonus: small bonus if one or both wrestlers are proficient.
 - Penalty: -5 for each wrestler with stamina < 40.
-- Variance: random(-5..5).
+- Variance: random(-rating_variance..rating_variance).
 
 ## Stat Deltas
 After the match:
-- Winner popularity: +3
-- Loser popularity: -1
-- Stamina: base cost per match type + random(0..4)
+- Winner popularity: `popularity_delta_winner`
+- Loser popularity: `popularity_delta_loser`
+- Stamina: `stamina_cost_winner` / `stamina_cost_loser` + random(0..2)
 - Proficient wrestlers lose 2 less stamina in the selected match type
 
 All resulting stats are clamped to 0–100 by `apply_result()`.
+
+## Result Audit Fields
+Each match result includes:
+- `match_type_id`
+- `match_type_name`
+- `applied_modifiers`
 
 ## Extending the Model
 If you add new match rules, keep these constraints:
